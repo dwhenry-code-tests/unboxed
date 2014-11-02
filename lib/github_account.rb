@@ -1,8 +1,13 @@
 require 'github_connection'
+require 'favourite_language_selector/first_past_the_post'
 
 class GithubAccount
   def self.library
     @library ||= 'octokit'
+  end
+
+  def self.selector
+    @selector ||= 'first_past_the_post'
   end
 
   def initialize(username)
@@ -11,7 +16,7 @@ class GithubAccount
   end
 
   def favourite_language
-    repositories.first['language']
+    favourite_language_selector.new(repositories).get
   rescue => e
     "Error: #{e.message}"
   end
@@ -26,5 +31,11 @@ class GithubAccount
     {
       'octokit' => GithubConnection::Octokit
     }.fetch(self.class.library).new(@username)
+  end
+
+  def favourite_language_selector
+    {
+      'first_past_the_post' => FavouriteLanguageSelector::FirstPastThePost
+    }.fetch(self.class.selector)
   end
 end
