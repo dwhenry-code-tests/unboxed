@@ -35,3 +35,7 @@ post '/favourite' do
   puts @favourite_language
   haml :favourite
 end
+
+get '/design' do
+  haml :design
+end

@@ -1,0 +1,56 @@
+#horse-container {
+  background: #FAFAFA;
+  width: 532px;
+  padding: 8px 0;
+  margin: 10px 0;
+
+  font-family: sans-serif;
+  font-size: 12px;
+}
+#horse-container .main{
+  padding: 10px 0px;
+  border-top: solid 1px #EEE;
+  border-bottom: solid 1px #EEE;
+
+}
+#horse-container .main .horse {
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  display: inline-block;
+  margin: 0 10px;
+  border-radius: 5px;
+}
+
+#horse-container .main .horse img {
+  width: 40px;
+  height: 40px;
+  vertical-align: middle;
+  border-radius: 5px;
+}
+
+#horse-container .main .text {
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#horse-container .main .text .title {
+  font-weight: 600
+}
+
+#horse-container .main .date {
+  float: right;
+  color: #DDD;
+  font-size: 10px;
+  margin: 0 10px;
+}
+
+#horse-container .main a,
+#horse-container .main a:visited {
+  color: #AAAAE9;
+  font-weight: 400;
+  text-decoration: none;
+}
+#horse-container .main a:hover {
+  color: #8585E0;
+}
