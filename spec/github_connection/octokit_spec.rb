@@ -52,4 +52,16 @@ describe GithubConnection::Octokit do
       ]
     end
   end
+
+  context 'when user is invalid' do
+    let(:username) { 'dwhenry-invalid' }
+
+    it 'raise an InvalidUser error' do
+      expect {
+        VCR.use_cassette('octokit_invalid_user') do
+          subject.repositories
+        end
+      }.to raise_error(GithubConnection::InvalidUser, 'Invalid User')
+    end
+  end
 end

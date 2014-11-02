@@ -15,6 +15,8 @@ class GithubConnection
         repos += additional_repos
       end
       repos
+    rescue :: Octokit::NotFound
+      raise GithubConnection::InvalidUser, 'Invalid User'
     end
   end
 end
