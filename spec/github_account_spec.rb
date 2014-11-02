@@ -6,7 +6,7 @@ describe GithubAccount do
     let(:github_user) { 'single_repo_user' }
 
     before do
-      allow_any_instance_of(GithubConnection).to receive(:repositories).and_return([{'language' => 'Ruby'}])
+      allow_any_instance_of(GithubConnection::Octokit).to receive(:repositories).and_return([{'language' => 'Ruby'}])
     end
 
     it 'returns the language on the repo' do
@@ -20,7 +20,7 @@ describe GithubAccount do
     let(:github_user) { 'single_repo_user' }
 
     before do
-      allow_any_instance_of(GithubConnection).to receive(:repositories).and_raise(GithubConnection::InvalidUser, 'Invalid User')
+      allow_any_instance_of(GithubConnection::Octokit).to receive(:repositories).and_raise(GithubConnection::InvalidUser, 'Invalid User')
     end
 
     it 'returns the language on the repo' do

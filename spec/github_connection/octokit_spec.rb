@@ -7,49 +7,22 @@ describe GithubConnection::Octokit do
   let(:username) { 'dwhenry' }
   subject { described_class.new(username) }
 
-  it 'can require a list of repositories for a given user' do
-    VCR.use_cassette('octokit_repos') do
-      expect(subject.repositories.map(&:name)).to eq ["angular-lightbox",
-        "base_sinatra_app",
-        "bre-de",
-        "brisruby_cplusplus",
-        "db_manager",
-        "devise",
-        "factory-toys",
-        "factory_girl",
-        "fighter",
-        "gsl",
-        "ingenia_ruby",
-        "kaos",
-        "koc",
-        "leap-fighter",
-        "level1",
-        "Markdown",
-        "Pillow",
-        "play",
-        "play_iphone",
-        "pointer",
-        "poker",
-        "rabbit-mq-consumers",
-        "raffle",
-        "responsible",
-        "robot_tournament_setup",
-        "rrtf2html",
-        "rtf2html",
-        "Rugby",
-        "RxJSKoans",
-        "security_workshop",
-        "swarm",
-        "trucks",
-        "trucks_2",
-        "WebSheet",
-        "Websocket-Bomberman",
-        "wedding-guest",
-        "wedding_guest_iphone",
-        "wherever",
-        "wizardz",
-        "workflow"
-      ]
+  context 'ingenia-api user' do
+    let(:username) { 'ingenia-api' }
+    it 'can return a list of repos' do
+      VCR.use_cassette('octokit_repos_one') do
+        expect(subject.repositories.map(&:name)).to eq(["documatica", "ingenia_ruby"])
+      end
+    end
+  end
+
+  describe 'repo has greater than paginated number of repositories' do
+    let(:username) { 'dwhenry' }
+
+    it 'will return all repositories' do
+      VCR.use_cassette('octokit_repos_paginated') do
+        expect(subject.repositories.count).to eq(40)
+      end
     end
   end
 

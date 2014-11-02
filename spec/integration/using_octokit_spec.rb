@@ -7,7 +7,7 @@ describe 'Using Octokit' do
 
     it 'return most popular language' do
       VCR.use_cassette('octokit_repos_one') do
-        account = described_class.new(github_user)
+        account = GithubAccount.new(github_user)
 
         expect(account.favourite_language).to eq('Ruby')
 

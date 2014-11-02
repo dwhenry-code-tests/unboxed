@@ -1,4 +1,4 @@
-class GithubConnection
+module GithubConnection
   class Octokit
     def initialize(username)
       # lazy load the gem

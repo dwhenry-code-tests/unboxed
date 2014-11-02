@@ -1,6 +1,9 @@
 require 'github_connection'
 
 class GithubAccount
+  def self.library
+    @library ||= 'octokit'
+  end
 
   def initialize(username)
     @library = 'octokit'
@@ -20,6 +23,8 @@ class GithubAccount
   end
 
   def connection
-    GithubConnection.new(@username)
+    {
+      'octokit' => GithubConnection::Octokit
+    }.fetch(self.class.library).new(@username)
   end
 end
