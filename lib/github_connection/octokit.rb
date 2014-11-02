@@ -8,15 +8,23 @@ module GithubConnection
     end
 
     def repositories
-      repos = ::Octokit.repos(@username)
-      while ::Octokit.last_response.rels[:next] do
-        additional_repos = ::Octokit.last_response.rels[:next].get.data
-        return repos unless (additional_repos.map(&:id) - repos.map(&:id)).any?
-        repos += additional_repos
-      end
-      repos
-    rescue :: Octokit::NotFound
+      ::Octokit.repos(@username) + get_paginated_results
+
+    rescue ::Octokit::NotFound
       raise GithubConnection::InvalidUser, 'Invalid User'
+    end
+
+    private
+
+    def get_paginated_results
+      all = []
+      if ::Octokit.last_response.rels[:next]
+        begin
+          next_page = ::Octokit.last_response.rels[:next].get.data
+          all += next_page
+        end while (next_page.map(&:id) - all.map(&:id)).any?
+      end
+      all
     end
   end
 end
