@@ -5,6 +5,10 @@ describe GithubAccount do
   context 'when user has a single public repo' do
     let(:github_user) { 'single_repo_user' }
 
+    before do
+      allow_any_instance_of(GithubConnection).to receive(:repositories).and_return([{'language' => 'ruby'}])
+    end
+
     it 'returns the language on the repo' do
       account = described_class.new(github_user)
 

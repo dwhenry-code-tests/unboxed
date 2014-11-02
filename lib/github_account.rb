@@ -6,13 +6,16 @@ class GithubAccount
   end
 
   def favourite_language
-    connection.repositories
-    'ruby'
+    repositories.first['language']
   rescue => e
     "Error: #{e.message}"
   end
 
   private
+
+  def repositories
+    connection.repositories
+  end
 
   def connection
     GithubConnection.new
