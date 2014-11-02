@@ -1,0 +1,10 @@
+%h2 What is their favourite language?
+%p
+  %strong
+    = params[:username]
+  favourite language is
+  %strong
+    = @favourite_language
+
+%p
+  %a{href: '/favourite'} Check for another user

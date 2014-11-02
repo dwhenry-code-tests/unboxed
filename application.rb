@@ -24,3 +24,14 @@ end
 get '/' do
   haml :root
 end
+
+
+get '/favourite' do
+  haml :what_is_your_favourite
+end
+
+post '/favourite' do
+  @favourite_language = GithubAccount.new(params[:username]).favourite_language
+  puts @favourite_language
+  haml :favourite
+end

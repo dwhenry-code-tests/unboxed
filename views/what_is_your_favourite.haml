@@ -1,0 +1,8 @@
+%h2 What is their favourite language?
+%p Enter a valid 'github' username to find their favourite language:
+
+%form{name: "favourite_language", action: "/favourite", method: "post"}
+  %p
+    %input{type: "text", name: "username"}
+  %p
+    %input{type: 'submit', value: 'Find favourite language'}
