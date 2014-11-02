@@ -6,7 +6,7 @@ describe GithubAccount do
     let(:github_user) { 'single_repo_user' }
 
     before do
-      allow_any_instance_of(GithubConnection::Octokit).to receive(:repositories).and_return([OpenStruct.new('language' => 'Ruby')])
+      allow_any_instance_of(GithubConnection::Octokit).to receive(:repositories).and_return([OpenStruct.new('language' => 'Ruby', updated_at: Time.now)])
     end
 
     it 'returns the language on the repo' do

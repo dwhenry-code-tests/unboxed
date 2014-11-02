@@ -7,7 +7,7 @@ class GithubAccount
   end
 
   def self.selector
-    @selector ||= 'first_past_the_post'
+    @selector ||= 'most_popular'
   end
 
   def initialize(username)
@@ -29,13 +29,14 @@ class GithubAccount
 
   def connection
     {
-      'octokit' => GithubConnection::Octokit
+      'octokit' => GithubConnection::Octokit,
     }.fetch(self.class.library).new(@username)
   end
 
   def favourite_language_selector
     {
-      'first_past_the_post' => FavouriteLanguageSelector::FirstPastThePost
+      'first_past_the_post' => FavouriteLanguageSelector::FirstPastThePost,
+      'most_popular' => FavouriteLanguageSelector::MostPopularLanguage
     }.fetch(self.class.selector)
   end
 end
