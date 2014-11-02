@@ -29,4 +29,25 @@ describe GithubAccount do
       expect(account.favourite_language).to eq('Error: Invalid User')
     end
   end
+
+  context 'when multiple selectors are present' do
+    let(:github_user) { 'lamp' }
+    subject { described_class.new(github_user, selector: ['first_past_the_post', 'most_popular']) }
+
+    it 'only queries for the repositories once' do
+      expect_any_instance_of(GithubConnection::Octokit).to receive(:repositories).once
+      VCR.use_cassette('ockokit_changing_language') do
+        subject.favourite_language
+      end
+    end
+
+    it 'returns a hash of results (selector => value)' do
+      VCR.use_cassette('ockokit_changing_language') do
+        expect(subject.favourite_language).to eq(
+          'first_past_the_post' => 'JavaScript',
+          'most_popular' => 'Ruby',
+        )
+      end
+    end
+  end
 end
