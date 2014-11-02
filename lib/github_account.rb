@@ -2,7 +2,8 @@ require 'github_connection'
 
 class GithubAccount
   def initialize(username)
-
+    @library = 'octokit'
+    @username = username
   end
 
   def favourite_language
@@ -18,6 +19,6 @@ class GithubAccount
   end
 
   def connection
-    GithubConnection.new
+    GithubConnection.new(@library, @username)
   end
 end

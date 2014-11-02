@@ -1,7 +1,9 @@
 class GithubConnection
   class InvalidUser < StandardError; end
 
-  def repositories
+  def initialize(library, username)
+  end
 
+  def repositories
   end
 end
