@@ -1,6 +1,7 @@
 require 'github_connection'
 
 class GithubAccount
+
   def initialize(username)
     @library = 'octokit'
     @username = username
@@ -19,6 +20,6 @@ class GithubAccount
   end
 
   def connection
-    GithubConnection.new(@library, @username)
+    GithubConnection.new(@username)
   end
 end
