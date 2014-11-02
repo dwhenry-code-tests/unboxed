@@ -1,8 +1,10 @@
 require 'spec_helper'
+
+require 'github_connection'
 require 'github_connection/octokit'
 
 describe GithubConnection::Octokit do
-  username = 'dwhenry'
+  let(:username) { 'dwhenry' }
   subject { described_class.new(username) }
 
   it 'can require a list of repositories for a given user' do
