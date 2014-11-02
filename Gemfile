@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'octokit'
+
 group :test do
   gem 'rspec'
 

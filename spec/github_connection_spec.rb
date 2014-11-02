@@ -2,7 +2,8 @@ require 'spec_helper'
 require 'github_connection'
 
 describe GithubConnection do
-  let(:username) { }
+  let(:username) { 'ingenia-api' }
+
   context 'when using the Octokit gem' do
     subject { described_class.new(:octokit, username) }
 
@@ -11,9 +12,19 @@ describe GithubConnection do
       subject.repositories
     end
 
-    xit 'can return a list of repos' do
-      VCR.use_cassette('octokit-repos') do
-        expect(subject.repositories).to eq([])
+    it 'can return a list of repos' do
+      VCR.use_cassette('octokit_repos_one') do
+        expect(subject.repositories.count).to eq(2  )
+      end
+    end
+
+    describe 'repo has greater than paginated number of repositories' do
+      let(:username) { 'dwhenry' }
+
+      it 'will return all repositories' do
+        VCR.use_cassette('octokit_repos_paginated') do
+          expect(subject.repositories.count).to eq(40)
+        end
       end
     end
   end
