@@ -31,8 +31,16 @@ get '/favourite' do
 end
 
 post '/favourite' do
-  @favourite_language = GithubAccount.new(params[:username]).favourite_language
-  haml :favourite
+  account = GithubAccount.new(params[:username])
+  if account.valid?
+    @favourite_language = account.favourite_language
+    haml :favourite
+  else
+    # TODO: catch error in GithubAccount object
+    # so the system can report on different error types
+    @error = "Invalid Github username: #{params[:username]}"
+    haml :what_is_your_favourite
+  end
 end
 
 get '/design' do

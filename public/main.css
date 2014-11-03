@@ -50,3 +50,10 @@ a:hover {
 #logo a:hover {
   text-decoration: none;
 }
+.error {
+  border: solid red 1px;
+  background: #FFAD99;
+  padding: 10px;
+  margin: 20px 0;
+  display: inline-block;
+}

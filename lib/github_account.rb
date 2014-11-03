@@ -29,10 +29,16 @@ class GithubAccount
     "Error: #{e.message}"
   end
 
+  def valid?
+    !!repositories
+  rescue
+    false
+  end
+
   private
 
   def repositories
-    connection.repositories
+    @repositories ||= connection.repositories
   end
 
   def connection

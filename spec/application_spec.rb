@@ -27,5 +27,17 @@ describe "Web integration", type: :controller do
       expect(page).to have_content("dwhenry's favourite language is Ruby")
     end
 
+    it "will redirect with an error for an invalid user id" do
+      visit "/favourite"
+
+      fill_in "Username", with: "dwhenry-invalid"
+
+      VCR.use_cassette("octokit_dwhenry-invalid") do
+        click_on "Find favourite language"
+      end
+
+      expect(page).to have_content("Invalid Github username: dwhenry-invalid")
+      expect(page).to have_css("h2", text: "What is their favourite language?")
+    end
   end
 end
