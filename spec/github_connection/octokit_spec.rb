@@ -20,7 +20,7 @@ describe GithubConnection::Octokit do
     let(:username) { 'dwhenry' }
 
     it 'will return all repositories' do
-      VCR.use_cassette('octokit_repos_paginated') do
+      VCR.use_cassette('octokit_dwhenry') do
         expect(subject.repositories.count).to eq(40)
       end
     end
@@ -31,7 +31,7 @@ describe GithubConnection::Octokit do
 
     it 'raise an InvalidUser error' do
       expect {
-        VCR.use_cassette('octokit_invalid_user') do
+        VCR.use_cassette('octokit_dwhenry-invalid') do
           subject.repositories
         end
       }.to raise_error(GithubConnection::InvalidUser, 'Invalid User')
