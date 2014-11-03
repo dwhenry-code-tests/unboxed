@@ -36,9 +36,7 @@ post '/favourite' do
     @favourite_language = account.favourite_language
     haml :favourite
   else
-    # TODO: catch error in GithubAccount object
-    # so the system can report on different error types
-    @error = "Invalid Github username: #{params[:username]}"
+    @error = account.error
     haml :what_is_your_favourite
   end
 end
