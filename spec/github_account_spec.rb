@@ -6,7 +6,9 @@ describe GithubAccount do
     let(:username) { 'single_repo_user' }
 
     before do
-      allow_any_instance_of(GithubConnection::Octokit).to receive(:repositories).and_return([
+      allow_any_instance_of(
+        GithubConnection::Octokit
+      ).to receive(:repositories).and_return([
         OpenStruct.new('language' => 'Ruby', updated_at: Time.now)
       ])
     end
@@ -22,7 +24,9 @@ describe GithubAccount do
     let(:username) { 'single_repo_user' }
 
     before do
-      allow_any_instance_of(GithubConnection::Octokit).to receive(:repositories).and_raise(
+      allow_any_instance_of(
+        GithubConnection::Octokit
+      ).to receive(:repositories).and_raise(
         GithubConnection::InvalidUser, 'Invalid User'
       )
     end
@@ -30,7 +34,9 @@ describe GithubAccount do
     it 'returns the language on the repo' do
       account = described_class.new(username)
 
-      expect(account.favourite_language).to eq('Error: Invalid User')
+      expect(account.favourite_language).to eq(
+        'Invalid Github username: single_repo_user'
+      )
     end
   end
 
@@ -39,11 +45,76 @@ describe GithubAccount do
     subject { described_class.new(username, selector: ['first_past_the_post', 'most_popular']) }
 
     it 'only queries for the repositories once' do
-      expect_any_instance_of(GithubConnection::Octokit).to receive(:repositories).once.and_return([
+      expect_any_instance_of(
+        GithubConnection::Octokit
+      ).to receive(:repositories).once.and_return([
         OpenStruct.new('language' => 'Ruby', updated_at: Time.now)
       ])
 
       subject.favourite_language
+    end
+  end
+
+  describe '#valid?' do
+    subject { described_class.new('username') }
+
+    context 'when repositories are returned' do
+      before do
+        allow_any_instance_of(
+          GithubConnection::Octokit
+        ).to receive(:repositories).and_return([])
+      end
+
+      it 'is valid' do
+        expect(subject).to be_valid
+      end
+
+      it 'clears any error messages' do
+        subject.valid?
+        expect(subject.error).to be_nil
+      end
+    end
+
+    context 'when Invalid User error is returned when retrieving repositories' do
+      before do
+        allow_any_instance_of(
+          GithubConnection::Octokit
+        ).to receive(:repositories).and_raise(
+          GithubConnection::InvalidUser, 'Invalid User'
+        )
+      end
+
+      it 'is invalid' do
+        expect(subject).not_to be_valid
+      end
+
+      it 'sets the error message' do
+        subject.valid?
+        expect(subject.error).to eq(
+          "Invalid Github username: username"
+        )
+      end
+    end
+
+    context 'when any other error is returned when retrieving repositories' do
+      before do
+        allow_any_instance_of(
+          GithubConnection::Octokit
+        ).to receive(:repositories).and_raise(
+          StandardError
+        )
+      end
+
+      it 'is invalid' do
+        expect(subject).not_to be_valid
+      end
+
+      it 'sets the error message' do
+        subject.valid?
+        expect(subject.error).to eq(
+          "Unknown error accessing github details for: username"
+        )
+      end
     end
   end
 end

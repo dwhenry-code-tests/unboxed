@@ -4,6 +4,8 @@ require 'favourite_language_selector/most_popular_language'
 require 'favourite_language_selector/multiple_selectors'
 
 class GithubAccount
+  attr_reader :error
+
   SELECTOR_LOOKUP = {
     'first_past_the_post' => FavouriteLanguageSelector::FirstPastThePost,
     'most_popular' => FavouriteLanguageSelector::MostPopularLanguage
@@ -24,14 +26,22 @@ class GithubAccount
   end
 
   def favourite_language
-    favourite_language_selector.get
-  rescue => e
-    "Error: #{e.message}"
+    if valid?
+      favourite_language_selector.get
+    else
+      error
+    end
   end
 
   def valid?
-    !!repositories
+    repositories
+    @error = nil
+    true
+  rescue GithubConnection::InvalidUser
+    @error = "Invalid Github username: #{@username}"
+    false
   rescue
+    @error = "Unknown error accessing github details for: #{@username}"
     false
   end
 
