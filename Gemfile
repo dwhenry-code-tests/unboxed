@@ -6,6 +6,9 @@ gem 'haml'
 
 group :test do
   gem 'rspec'
+  gem 'capybara'
+  gem 'rack-test'
+
   gem 'pry'
   gem 'pry-nav'
   gem 'webmock'
