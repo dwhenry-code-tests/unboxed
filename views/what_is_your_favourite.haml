@@ -3,6 +3,7 @@
 
 %form{name: "favourite_language", action: "/favourite", method: "post"}
   %p
-    %input{type: "text", name: "username"}
+    %label{for: "username"} Username
+    %input{type: "text", id: "username", name: "username"}
   %p
     %input{type: 'submit', value: 'Find favourite language'}

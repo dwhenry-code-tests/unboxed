@@ -14,4 +14,18 @@ describe "Web integration", type: :controller do
     end
   end
 
+  describe "favourite language" do
+    it "will render the favourite language" do
+      visit "/favourite"
+
+      fill_in "Username", with: "dwhenry"
+
+      VCR.use_cassette("octokit_dwhenry") do
+        click_on "Find favourite language"
+      end
+
+      expect(page).to have_content("dwhenry's favourite language is Ruby")
+    end
+
+  end
 end

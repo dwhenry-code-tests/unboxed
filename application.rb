@@ -32,7 +32,6 @@ end
 
 post '/favourite' do
   @favourite_language = GithubAccount.new(params[:username]).favourite_language
-  puts @favourite_language
   haml :favourite
 end
 
