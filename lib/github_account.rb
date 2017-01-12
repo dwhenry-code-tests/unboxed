@@ -11,18 +11,10 @@ class GithubAccount
     'most_popular' => FavouriteLanguageSelector::MostPopularLanguage
   }
 
-  CONNECTION_LOOKUP = {
-    'octokit' => GithubConnection::Octokit,
-  }
-
-  Library = 'octokit'
-  Selector = 'most_popular'
-
-
-  def initialize(username, options={})
-    @library = 'octokit'
+  def initialize(username, selector: 'most_popular', connection: GithubConnection::Octokit)
     @username = username
-    @options = options
+    @selector = selector
+    @connection = connection
   end
 
   def favourite_language
@@ -52,19 +44,17 @@ class GithubAccount
   end
 
   def connection
-    library = @options[:library] || Library
-    CONNECTION_LOOKUP.fetch(library).new(@username)
+    @connection.new(@username)
   end
 
   def favourite_language_selector
-    selector = @options[:selector] || Selector
-    if selector.is_a?(Array)
+    if @selector.is_a?(Array)
       FavouriteLanguageSelector::MultipleSelectors.new(
         repositories,
-        selector
+        @selector
       )
     else
-      SELECTOR_LOOKUP.fetch(selector).new(repositories)
+      SELECTOR_LOOKUP.fetch(@selector).new(repositories)
     end
   end
 end
