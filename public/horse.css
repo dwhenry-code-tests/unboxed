@@ -1,6 +1,7 @@
 #horse-container {
   background: #FAFAFA;
-  width: 532px;
+  width: 66%;
+  max-width: 532px;
   padding: 8px 0;
   margin: 10px 0;
 
@@ -11,20 +12,21 @@
   padding: 10px 0px;
   border-top: solid 1px #EEE;
   border-bottom: solid 1px #EEE;
-
+  position: relative;
 }
 #horse-container .main .horse {
   width: 40px;
   height: 40px;
   background-color: white;
   display: inline-block;
-  margin: 0 10px;
   border-radius: 5px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }
 
 #horse-container .main .horse img {
-  width: 40px;
-  height: 40px;
+  width: 100%;
   vertical-align: middle;
   border-radius: 5px;
 }
@@ -32,6 +34,8 @@
 #horse-container .main .text {
   display: inline-block;
   line-height: 1.2em;
+  margin-left: 60px;
+  width: calc(100% - 70px); /* 60px for image on right + 10px for margin on left*/
 }
 
 #horse-container .main .text .title {
@@ -39,10 +43,11 @@
 }
 
 #horse-container .main .date {
-  float: right;
+  position: absolute;
+  right: 10px;
+  top: 10px;
   color: #DDD;
   font-size: 10px;
-  margin: 0 10px;
 }
 
 #horse-container .main a,
