@@ -2,21 +2,22 @@ require 'spec_helper'
 require 'github_account'
 
 describe GithubAccount do
+  let(:connection) { double(:connection) }
+  let(:connection_class) { double(:connection_class, new: connection) }
+
+  subject { described_class.new(username, connection: connection_class) }
+
   context 'when user has a single public repo' do
     let(:username) { 'single_repo_user' }
 
     before do
-      allow_any_instance_of(
-        GithubConnection::Octokit
-      ).to receive(:repositories).and_return([
+      allow(connection).to receive(:repositories).and_return([
         OpenStruct.new('language' => 'Ruby', updated_at: Time.now)
       ])
     end
 
     it 'returns the language on the repo' do
-      account = described_class.new(username)
-
-      expect(account.favourite_language).to eq('Ruby')
+      expect(subject.favourite_language).to eq('Ruby')
     end
   end
 
@@ -24,17 +25,13 @@ describe GithubAccount do
     let(:username) { 'single_repo_user' }
 
     before do
-      allow_any_instance_of(
-        GithubConnection::Octokit
-      ).to receive(:repositories).and_raise(
+      allow(connection).to receive(:repositories).and_raise(
         GithubConnection::InvalidUser, 'Invalid User'
       )
     end
 
     it 'returns the language on the repo' do
-      account = described_class.new(username)
-
-      expect(account.favourite_language).to eq(
+      expect(subject.favourite_language).to eq(
         'Invalid Github username: single_repo_user'
       )
     end
@@ -42,12 +39,16 @@ describe GithubAccount do
 
   context 'when multiple selectors are present' do
     let(:username) { 'lamp' }
-    subject { described_class.new(username, selector: ['first_past_the_post', 'most_popular']) }
+    subject do
+      described_class.new(
+        username,
+        selector: ['first_past_the_post', 'most_popular'],
+        connection: connection_class
+      )
+    end
 
     it 'only queries for the repositories once' do
-      expect_any_instance_of(
-        GithubConnection::Octokit
-      ).to receive(:repositories).once.and_return([
+      allow(connection).to receive(:repositories).once.and_return([
         OpenStruct.new('language' => 'Ruby', updated_at: Time.now)
       ])
 
@@ -56,13 +57,11 @@ describe GithubAccount do
   end
 
   describe '#valid?' do
-    subject { described_class.new('username') }
+    let(:username) { 'username' }
 
     context 'when repositories are returned' do
       before do
-        allow_any_instance_of(
-          GithubConnection::Octokit
-        ).to receive(:repositories).and_return([])
+        allow(connection).to receive(:repositories).and_return([])
       end
 
       it 'is valid' do
@@ -77,9 +76,7 @@ describe GithubAccount do
 
     context 'when Invalid User error is returned when retrieving repositories' do
       before do
-        allow_any_instance_of(
-          GithubConnection::Octokit
-        ).to receive(:repositories).and_raise(
+        allow(connection).to receive(:repositories).and_raise(
           GithubConnection::InvalidUser, 'Invalid User'
         )
       end
@@ -98,9 +95,7 @@ describe GithubAccount do
 
     context 'when any other error is returned when retrieving repositories' do
       before do
-        allow_any_instance_of(
-          GithubConnection::Octokit
-        ).to receive(:repositories).and_raise(
+        allow(connection).to receive(:repositories).and_raise(
           StandardError
         )
       end
