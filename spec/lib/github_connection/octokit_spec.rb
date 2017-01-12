@@ -17,11 +17,11 @@ describe GithubConnection::Octokit do
   end
 
   describe 'repo has greater than paginated number of repositories' do
-    let(:username) { 'dwhenry' }
+    let(:username) { 'guidance-guarantee-programme' }
 
     it 'will return all repositories' do
-      VCR.use_cassette('octokit_dwhenry') do
-        expect(subject.repositories.count).to eq(40)
+      VCR.use_cassette('octokit_guidance-guarantee-programme') do
+        expect(subject.repositories.count).to eq(53)
       end
     end
   end
