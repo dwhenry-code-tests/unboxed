@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.github.com/users/dwhenry-invalid/repos
+    uri: https://api.github.com/users/dwhenry-invalid/repos?per_page=5
     body:
       encoding: US-ASCII
       string: ''
@@ -23,7 +23,7 @@ http_interactions:
       Server:
       - GitHub.com
       Date:
-      - Sun, 02 Nov 2014 02:20:15 GMT
+      - Thu, 12 Jan 2017 17:08:32 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -33,33 +33,31 @@ http_interactions:
       X-Ratelimit-Limit:
       - '60'
       X-Ratelimit-Remaining:
-      - '34'
+      - '27'
       X-Ratelimit-Reset:
-      - '1414895972'
+      - '1484244157'
       X-Github-Media-Type:
       - github.v3; format=json
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Frame-Options:
-      - deny
-      Content-Security-Policy:
-      - default-src 'none'
-      Access-Control-Allow-Credentials:
-      - 'true'
       Access-Control-Expose-Headers:
       - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
         X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
       Access-Control-Allow-Origin:
       - "*"
-      X-Github-Request-Id:
-      - 02D8C65C:3828:1DAD2A5:545594DF
+      Content-Security-Policy:
+      - default-src 'none'
       Strict-Transport-Security:
       - max-age=31536000; includeSubdomains; preload
       X-Content-Type-Options:
       - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Github-Request-Id:
+      - 5E0887F4:2DA6E:21FDAF7:5877B810
     body:
       encoding: UTF-8
       string: '{"message":"Not Found","documentation_url":"https://developer.github.com/v3"}'
     http_version: 
-  recorded_at: Sun, 02 Nov 2014 02:24:19 GMT
+  recorded_at: Thu, 12 Jan 2017 17:08:40 GMT
 recorded_with: VCR 2.9.3
